@@ -1,15 +1,26 @@
-# notion-automations
+# Notion Automations!
 
-To install dependencies:
+Webhook handlers for various automations in our Notion workspace!
+
+## Setup
+
+Install dependencies:
 
 ```bash
 bun install
 ```
 
-To run:
+Set environment variables:
 
 ```bash
-bun run index.ts
+cp .env.example .env
+# Fill in your secrets
 ```
 
-This project was created using `bun init` in bun v1.3.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## Development
+
+```bash
+bun dev
+```
+
+Built with [Hono](https://hono.dev/) and [Bun](https://bun.sh/) :)
