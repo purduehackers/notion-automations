@@ -1,0 +1,29 @@
+{
+	"type": "module",
+	"name": "notion-automations",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --hot src/index.ts",
+		"start": "bun run src/index.ts",
+		"deploy": "vc deploy",
+		"lint": "biome check . --fix",
+		"format": "biome format . --write",
+		"check-types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@hono/zod-validator": "^0.7.4",
+		"@t3-oss/env-core": "^0.13.8",
+		"discord.js": "^14.23.2",
+		"hono": "^4.9.12",
+		"notion-schemas": "^0.3.4",
+		"zod": "^4.1.12"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}
