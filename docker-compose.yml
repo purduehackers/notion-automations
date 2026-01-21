@@ -1,0 +1,11 @@
+services:
+  notion-automations:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - WEBHOOK_API_KEY=${WEBHOOK_API_KEY}
+      - DISCORD_MICROGRANTS_WEBHOOK_URL=${DISCORD_MICROGRANTS_WEBHOOK_URL}
+    env_file:
+      - .env
+    restart: unless-stopped
