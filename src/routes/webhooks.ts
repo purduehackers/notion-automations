@@ -17,7 +17,6 @@ const HiringSchema = makeValidator(
     "Preferred Name": Notion.prop.title,
     "Discord Username": Notion.prop.rich_text,
     Roles: Notion.prop.relation,
-    Email: Notion.prop.rich_text,
     "Tell us about yourself": Notion.prop.rich_text,
     Socials: Notion.prop.rich_text,
     "When is your expected graduation date?": Notion.prop.rich_text,
@@ -44,7 +43,6 @@ router.post("/hiring", HiringSchema, async (c) => {
   const name = data.properties["Preferred Name"].title[0]!.text.content;
   const discord = formatRichText(data.properties["Discord Username"]);
   const roles = data.properties["Roles"].relation.map((role) => role.id);
-  const email = formatRichText(data.properties["Email"]);
   const about = formatRichText(data.properties["Tell us about yourself"]);
   const socials = formatRichText(data.properties["Socials"]);
   const graduation = formatRichText(data.properties["When is your expected graduation date?"]);
@@ -53,21 +51,20 @@ router.post("/hiring", HiringSchema, async (c) => {
   const referrer_additional = formatRichText(
     data.properties["If you selected “Other”, where did you hear about this position?"],
   );
-  const hasBeenToHackNight =
+  const has_been_to_hack_night =
     data.properties["Have you been to Hack Night before?"].multi_select[0]!.name === "Yes";
 
   log.set({
     name,
     discord,
     roles,
-    email,
     about,
     socials,
     graduation,
     timeCommitment,
     referrer,
     referrer_additional,
-    hasBeenToHackNight,
+    has_been_to_hack_night,
   });
 
   return c.json({ ok: true });
