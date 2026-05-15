@@ -1,0 +1,14 @@
+diff --git a/dist/notion.js b/dist/notion.js
+index f91372afaff17f4db7247e3cc86754c6b521335b..4fb6e8e4b2c6acad09bc84839c7d0b03cee2644f 100644
+--- a/dist/notion.js
++++ b/dist/notion.js
+@@ -16,8 +16,8 @@ export const Page = (properties) => z.object({
+         data_source_id: z.string(),
+         database_id: z.string(),
+     }),
+-    archived: z.boolean(),
+     in_trash: z.boolean(),
++    is_archived: z.boolean().optional(),
+     is_locked: z.boolean(),
+     properties,
+     url: z.string(),

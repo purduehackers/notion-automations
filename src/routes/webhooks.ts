@@ -9,12 +9,12 @@ import { send } from "../utils/discord";
 import { formatRichText } from "../utils/notion";
 import { makeValidator } from "../utils/validator";
 
-const route = new Hono<EvlogVariables>();
-route.use(evlog());
+const router = new Hono<EvlogVariables>();
+router.use(evlog());
 
 const HiringSchema = makeValidator(z.object({}));
 
-route.post("/hiring", HiringSchema, async (c) => {
+router.post("/hiring", HiringSchema, async (c) => {
   const log = c.get("log");
 
   const { data, source } = c.req.valid("json");
@@ -40,7 +40,7 @@ const MicrograntsSchema = makeValidator(
   }),
 );
 
-route.post("/microgrants", MicrograntsSchema, async (c) => {
+router.post("/microgrants", MicrograntsSchema, async (c) => {
   const log = c.get("log");
 
   const { data, source } = c.req.valid("json");
@@ -89,4 +89,4 @@ route.post("/microgrants", MicrograntsSchema, async (c) => {
   return c.json({ ok: true });
 });
 
-export default route;
+export default router;
