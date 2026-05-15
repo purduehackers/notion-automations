@@ -6,6 +6,7 @@ export const env = createEnv({
     API_TOKEN: z.string(),
     DISCORD_HIRING_WEBHOOK_URL: z.string(),
     DISCORD_MICROGRANTS_WEBHOOK_URL: z.string(),
+    NOTION_API_TOKEN: z.string(),
     NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   },
   runtimeEnv: process.env,
