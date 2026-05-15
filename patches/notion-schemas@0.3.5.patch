@@ -1,3 +1,19 @@
+diff --git a/node_modules/notion-schemas/.bun-tag-683729bf7e9d2bba b/.bun-tag-683729bf7e9d2bba
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/dist/notion.d.ts b/dist/notion.d.ts
+index aee38f8d702bf44db4f970409ea22ef33c6f26a3..aad87f81c1ce20af93bb729d51b7a5c226fe476b 100644
+--- a/dist/notion.d.ts
++++ b/dist/notion.d.ts
+@@ -21,7 +21,7 @@ export declare const Page: <T extends z.ZodType>(properties: T) => z.ZodObject<{
+         data_source_id: z.ZodString;
+         database_id: z.ZodString;
+     }, z.core.$strip>;
+-    archived: z.ZodBoolean;
++    is_archived: z.ZodBoolean;
+     in_trash: z.ZodBoolean;
+     is_locked: z.ZodBoolean;
+     properties: T;
 diff --git a/dist/notion.js b/dist/notion.js
 index f91372afaff17f4db7247e3cc86754c6b521335b..4fb6e8e4b2c6acad09bc84839c7d0b03cee2644f 100644
 --- a/dist/notion.js
@@ -12,3 +28,52 @@ index f91372afaff17f4db7247e3cc86754c6b521335b..4fb6e8e4b2c6acad09bc84839c7d0b03
      is_locked: z.boolean(),
      properties,
      url: z.string(),
+diff --git a/dist/props.d.ts b/dist/props.d.ts
+index ebba27f3890d7f050007a94bb748374ee2f0f0fe..0e7e7280f1676bfb4615bcb49b27f913f66c1a34 100644
+--- a/dist/props.d.ts
++++ b/dist/props.d.ts
+@@ -6,7 +6,7 @@ export type PartialProps<T> = Partial<{
+     [K in keyof T]: DeepPartial<T[K]>;
+ }>;
+ /** Union of all property types */
+-export type Prop = typeof status | typeof date | typeof relation | typeof title | typeof created_time | typeof rich_text | typeof checkbox | typeof select;
++export type Prop = typeof status | typeof date | typeof relation | typeof title | typeof created_time | typeof rich_text | typeof checkbox | typeof select | typeof multi_select;
+ export declare const status: z.ZodObject<{
+     id: z.ZodString;
+     type: z.ZodLiteral<"status">;
+@@ -94,6 +94,15 @@ export declare const select: z.ZodObject<{
+         color: z.ZodString;
+     }, z.core.$strip>;
+ }, z.core.$strip>;
++export declare const multi_select: z.ZodObject<{
++    id: z.ZodString;
++    type: z.ZodLiteral<"multi_select">;
++    multi_select: z.ZodArray<z.ZodObject<{
++        id: z.ZodString;
++        name: z.ZodString;
++        color: z.ZodString;
++    }, z.core.$strip>>;
++}, z.core.$strip>;
+ export declare const number: z.ZodObject<{
+     id: z.ZodString;
+     type: z.ZodLiteral<"number">;
+diff --git a/dist/props.js b/dist/props.js
+index 3b37e6333a45031ad11a2b0d79b61ca83e19a70e..98a72357a35615c33af58c591e3ce5279d398237 100644
+--- a/dist/props.js
++++ b/dist/props.js
+@@ -78,6 +78,15 @@ export const select = z.object({
+         color: z.string(),
+     }),
+ });
++export const multi_select = z.object({
++    id: z.string(),
++    type: z.literal('multi_select'),
++    multi_select: z.array(z.object({
++        id: z.string(),
++        name: z.string(),
++        color: z.string(),
++    })),
++});
+ export const number = z.object({
+     id: z.string(),
+     type: z.literal('number'),

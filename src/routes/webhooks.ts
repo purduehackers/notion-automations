@@ -12,19 +12,21 @@ import { makeValidator } from "../utils/validator";
 const router = new Hono<EvlogVariables>();
 router.use(evlog());
 
-const HiringSchema = makeValidator(z.object({
-  "Preferred Name": Notion.prop.rich_text,
-  "Discord Username": Notion.prop.rich_text,
-  "Role": Notion.prop.relation,
-  "Email": Notion.prop.rich_text,
-  "Tell us about yourself": Notion.prop.rich_text,
-  "Socials": Notion.prop.rich_text,
-  "When is your expected graduation date?": Notion.prop.rich_text,
-  "Time commitment": Notion.prop.rich_text,
-  "How did you hear about this position?": Notion.prop.rich_text,
-  "If you selected “Other”, where did you hear about this position?": Notion.prop.rich_text,
-  "Have you been to Hack Night before?": Notion.prop.rich_text,
-}));
+const HiringSchema = makeValidator(
+  z.object({
+    "Preferred Name": Notion.prop.title,
+    "Discord Username": Notion.prop.rich_text,
+    Roles: Notion.prop.relation,
+    Email: Notion.prop.rich_text,
+    "Tell us about yourself": Notion.prop.rich_text,
+    Socials: Notion.prop.rich_text,
+    "When is your expected graduation date?": Notion.prop.rich_text,
+    "Time commitment": Notion.prop.multi_select,
+    "How did you hear about this position?": Notion.prop.multi_select,
+    "If you selected “Other”, where did you hear about this position?": Notion.prop.rich_text,
+    "Have you been to Hack Night before?": Notion.prop.multi_select,
+  }),
+);
 
 router.post("/hiring", HiringSchema, async (c) => {
   const log = c.get("log");
@@ -37,6 +39,35 @@ router.post("/hiring", HiringSchema, async (c) => {
     action_id: source.action_id,
     event_id: source.event_id,
     attempt: source.attempt,
+  });
+
+  const name = data.properties["Preferred Name"].title[0]!.text.content;
+  const discord = formatRichText(data.properties["Discord Username"]);
+  const roles = data.properties["Roles"].relation.map((role) => role.id);
+  const email = formatRichText(data.properties["Email"]);
+  const about = formatRichText(data.properties["Tell us about yourself"]);
+  const socials = formatRichText(data.properties["Socials"]);
+  const graduation = formatRichText(data.properties["When is your expected graduation date?"]);
+  const timeCommitment = data.properties["Time commitment"].multi_select[0]!.name === "Yes";
+  const referrer = data.properties["How did you hear about this position?"].multi_select[0]!.name;
+  const referrer_additional = formatRichText(
+    data.properties["If you selected “Other”, where did you hear about this position?"],
+  );
+  const hasBeenToHackNight =
+    data.properties["Have you been to Hack Night before?"].multi_select[0]!.name === "Yes";
+
+  log.set({
+    name,
+    discord,
+    roles,
+    email,
+    about,
+    socials,
+    graduation,
+    timeCommitment,
+    referrer,
+    referrer_additional,
+    hasBeenToHackNight,
   });
 
   return c.json({ ok: true });
