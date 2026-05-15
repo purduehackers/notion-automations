@@ -1,4 +1,7 @@
 import { zValidator as validator } from "@hono/zod-validator";
+import type { EvlogVariables } from "evlog/hono";
+import type { Context } from "hono";
+import type { BlankInput } from "hono/types";
 import { Notion } from "notion-schemas";
 import { z } from "zod";
 
@@ -16,9 +19,14 @@ export function webhookSchema<T extends z.ZodType>(properties: T) {
 }
 
 export function makeValidator<T extends z.ZodType>(schema: T) {
-  return validator("json", webhookSchema(schema), (result, c) => {
+  // @ts-expect-error: Context type is not correctly inferred by the validator
+  return validator("json", webhookSchema(schema), (result, c: Context<EvlogVariables, string, BlankInput>) => {
     if (!result.success) {
-      console.info("Validation error:", result.error);
+      const log = c.get("log");
+
+      log.set({ parsed_data: result.data })
+      log.error(result.error);
+
       return c.json({ success: false, error: result.error }, 400);
     }
   });
