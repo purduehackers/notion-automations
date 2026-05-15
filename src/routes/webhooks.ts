@@ -86,9 +86,13 @@ router.post("/hiring", HiringSchema, async (c) => {
   const embed = new EmbedBuilder()
     .setTitle("New Organizer Application")
     .setDescription(
-      `**${name}** (@${discord.replace(/^@/, "")})\nRole(s): ${roles.join(" ")}\nAbout:\n${about}\nSocials:\n${socials}`,
+      `**${name}** (@${discord.replace(/^@/, "")})\nRole(s):\n\t-${roles.join("\n\t-")}\n\nAbout:\n${about}`,
     )
     .setFields([
+      {
+        name: "Socials",
+        value: socials,
+      },
       {
         name: "Graduation Year",
         value: graduation,
@@ -103,7 +107,7 @@ router.post("/hiring", HiringSchema, async (c) => {
       },
       {
         name: "Source",
-        value: `${referrer}${referrerAdditional ? ` (${referrerAdditional})` : ""}`,
+        value: `${referrer}${referrerAdditional ? `: ${referrerAdditional}` : ""}`,
       },
     ])
     .setFooter({ text: `https://www.notion.so/purduehackers/${data.id.replaceAll("-", "")}` });
