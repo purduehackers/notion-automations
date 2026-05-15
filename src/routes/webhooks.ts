@@ -108,7 +108,7 @@ router.post("/hiring", HiringSchema, async (c) => {
     ])
     .setFooter({ text: `https://www.notion.so/purduehackers/${data.id.replaceAll("-", "")}` });
 
-  await send({ url: env.DISCORD_MICROGRANTS_WEBHOOK_URL, embed });
+  await send({ url: env.DISCORD_HIRING_WEBHOOK_URL, embed });
 
   return c.json({ ok: true });
 });
