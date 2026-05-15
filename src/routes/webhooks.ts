@@ -86,7 +86,7 @@ router.post("/hiring", HiringSchema, async (c) => {
   const embed = new EmbedBuilder()
     .setTitle("New Organizer Application")
     .setDescription(
-      `**${name}** (@${discord.replace(/^@/, "")})\nRole(s):\n\t-${roles.join("\n\t-")}\n\nAbout:\n${about}`,
+      `**${name}** (@${discord.replace(/^@/, "")})\n\n**Role(s)**:\n\t- ${roles.join("\n\t- ")}\n\n**About:**\n${about}`,
     )
     .setFields([
       {
