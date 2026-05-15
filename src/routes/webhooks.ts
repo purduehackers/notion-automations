@@ -82,7 +82,7 @@ router.post("/microgrants", MicrograntsSchema, async (c) => {
         value: requestedAmount,
       },
     ])
-    .setFooter({ text: `https://www.notion.so/purduehackers/${data.id.replace("-", "")}` });
+    .setFooter({ text: `https://www.notion.so/purduehackers/${data.id.replaceAll("-", "")}` });
 
   await send({ url: env.DISCORD_MICROGRANTS_WEBHOOK_URL, embed });
 
