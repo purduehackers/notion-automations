@@ -20,9 +20,11 @@ export function webhookSchema<T extends z.ZodType>(properties: T) {
 }
 
 export function makeValidator<T extends z.ZodType>(schema: T) {
+  const WebhookSchema = webhookSchema(schema.and(z.looseObject({})));
+
   return validator(
     "json",
-    webhookSchema(schema),
+    WebhookSchema,
     // @ts-expect-error: Context type is not correctly inferred by the validator
     (result, c: Context<EvlogVariables, string, BlankInput>) => {
       const log = c.get("log");

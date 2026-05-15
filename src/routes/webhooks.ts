@@ -12,7 +12,19 @@ import { makeValidator } from "../utils/validator";
 const router = new Hono<EvlogVariables>();
 router.use(evlog());
 
-const HiringSchema = makeValidator(z.object({}));
+const HiringSchema = makeValidator(z.object({
+  "Preferred Name": Notion.prop.rich_text,
+  "Discord Username": Notion.prop.rich_text,
+  "Role": Notion.prop.relation,
+  "Email": Notion.prop.rich_text,
+  "Tell us about yourself": Notion.prop.rich_text,
+  "Socials": Notion.prop.rich_text,
+  "When is your expected graduation date?": Notion.prop.rich_text,
+  "Time commitment": Notion.prop.rich_text,
+  "How did you hear about this position?": Notion.prop.rich_text,
+  "If you selected “Other”, where did you hear about this position?": Notion.prop.rich_text,
+  "Have you been to Hack Night before?": Notion.prop.rich_text,
+}));
 
 router.post("/hiring", HiringSchema, async (c) => {
   const log = c.get("log");
