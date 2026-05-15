@@ -1,6 +1,6 @@
-# Notion Automations!
+# Notion Automations
 
-Webhook handlers for various automations in our Notion workspace!
+Webhook handlers for various automations in our Notion workspace. Deployed on Vercel.
 
 ## Setup
 
@@ -10,17 +10,18 @@ Install dependencies:
 bun install
 ```
 
-Set environment variables:
+Copy `.env.example` to `.env.local` and fill in the values.
 
 ```bash
-cp .env.example .env
-# Fill in your secrets
+cp .env.example .env.local
 ```
 
 ## Development
+
+Run the Nitro development server:
 
 ```bash
 bun dev
 ```
 
-Built with [Hono](https://hono.dev/) and [Bun](https://bun.sh/) :)
+The server will be available at `http://localhost:3000`.

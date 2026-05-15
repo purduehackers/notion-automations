@@ -1,17 +1,6 @@
 import { Notion } from "notion-schemas";
-import * as z from "zod";
+import { z } from "zod";
 
-export function webhookSchema<T extends z.ZodType>(properties: T) {
-	const schema = z.object({
-		source: z.object({
-			type: z.literal("automation"),
-			automation_id: z.string(),
-			action_id: z.string(),
-			event_id: z.string(),
-			attempt: z.number(),
-		}),
-		data: Notion.Page<T>(properties),
-	});
-
-	return schema;
+export function formatRichText(property: z.infer<typeof Notion.prop.rich_text>): string {
+  return property.rich_text.map((text) => text.plain_text).join(" ");
 }

@@ -1,15 +1,18 @@
+import { initLogger } from "evlog";
+import { evlog, type EvlogVariables } from "evlog/hono";
 import { Hono } from "hono";
-import { logger } from "hono/logger";
 
-import { route as webhooks } from "./routes/webhooks.js";
-
-const app = new Hono();
-app.use(logger());
-
-app.get("/", (c) => {
-	return c.text("yummy docs ₍^. .^₎⟆");
+initLogger({
+  env: { service: "notion-automations" },
 });
 
-app.route("/webhooks", webhooks);
+import api from "./routes";
+
+const app = new Hono<EvlogVariables>();
+app.use(evlog());
+
+app.get("/", async (c) => c.text("yummy docs ₍^. .^₎⟆"));
+
+app.route("/api", api);
 
 export default app;
